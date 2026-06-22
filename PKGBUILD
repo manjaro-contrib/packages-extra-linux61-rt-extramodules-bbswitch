@@ -1,16 +1,16 @@
 # Maintainer: Bernhard Landauer <bernhard@manjaro.org>
-# Maintainer: Philip Müller <philm[at]manjaro[dot]org>
+# Contributor: Philip Müller <philm[at]manjaro[dot]org>
 
 _linuxprefix=linux61-rt
 
 _module=bbswitch
 pkgname="${_linuxprefix}-${_module}"
 pkgver=0.8
-pkgrel=58
+pkgrel=59
 pkgdesc="Kernel module allowing to switch dedicated graphics card on Optimus laptops"
 arch=('x86_64')
 url="https://github.com/Bumblebee-Project/bbswitch"
-license=('GPL-2.0-or-later')
+license=('GPL-2.0-only')
 groups=("${_linuxprefix}-extramodules")
 depends=("${_linuxprefix}")
 makedepends=("${_linuxprefix}-headers")
@@ -43,5 +43,6 @@ package() {
 
   cd "${_module}-${pkgver}"
   install -Dm644 *.ko -t "$pkgdir/usr/lib/modules/${_kernver}/extramodules/"
+  find "${pkgdir}" -name '*.ko' -exec strip --strip-debug {} +
   find "${pkgdir}" -name '*.ko' -exec zstd --rm -19 {} +
 }
